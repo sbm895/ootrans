@@ -1,0 +1,14 @@
+services:
+  server:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data        # montar datos sin rebuildar imagen
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/catalog')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
